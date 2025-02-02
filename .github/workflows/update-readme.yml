@@ -1,4 +1,6 @@
 name: Update README
+permissions:
+  contents: write
 
 on:
   schedule:
@@ -33,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Commit and push
-        run: |-
+        run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           # Set the remote URL to include the GITHUB_TOKEN for authentication
