@@ -11,20 +11,20 @@
   <tr>
     <td>
       <ul>
-        <!-- LATEST_REPOS_START -->
-        <!-- LATEST_REPOS_END -->
+        <!-- latest_repos starts -->
+        <!-- latest_repos ends -->
       </ul>
     </td>
     <td>
       <ul>
-        <!-- LATEST_RELEASES_START -->
-        <!-- LATEST_RELEASES_END -->
+        <!-- latest_releases starts -->
+        <!-- latest_releases ends -->
       </ul>
     </td>
     <td>
       <ul>
-        <!-- LATEST_TIL_START -->
-        <!-- LATEST_TIL_END -->
+        <!-- latest_tils starts -->
+        <!-- latest_tils ends -->
       </ul>
     </td>
   </tr>
