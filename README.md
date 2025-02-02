@@ -27,6 +27,7 @@
 <li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
 <li><a href="https://github.com/candelakechkian/awesome-design-resources">awesome-design-resources</a> - 2025-01-18</li>
 <li><a href="https://github.com/candelakechkian/awesome-ai-resources">awesome-ai-resources</a> - 2025-01-13</li>
+<li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-01-12</li>
 <!-- latest_releases ends -->
       </ul>
     </td>
