@@ -12,27 +12,27 @@
     <td>
       <ul>
         <!-- latest_repos starts -->
-<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;"><ul style="margin: 0; padding: 0;"><li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
 <li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
 <li><a href="https://github.com/candelakechkian/the-life-manual">the-life-manual</a> - 2025-01-12</li>
-<li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-01-12</li></ul></div>
+<li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-01-12</li>
 <!-- latest_repos ends -->
       </ul>
     </td>
     <td>
       <ul>
         <!-- latest_releases starts -->
-<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;"><ul style="margin: 0; padding: 0;"><li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
 <li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
 <li><a href="https://github.com/candelakechkian/awesome-design-resources">awesome-design-resources</a> - 2025-01-18</li>
-<li><a href="https://github.com/candelakechkian/awesome-ai-resources">awesome-ai-resources</a> - 2025-01-13</li></ul></div>
+<li><a href="https://github.com/candelakechkian/awesome-ai-resources">awesome-ai-resources</a> - 2025-01-13</li>
 <!-- latest_releases ends -->
       </ul>
     </td>
     <td>
       <ul>
         <!-- latest_tils starts -->
-<div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;"><ul style="margin: 0; padding: 0;"><li><a href="https://github.com/candelakechkian/TIL/blob/main/README.md">README</a> - 2025-02-02</li></ul></div>
+<li><a href="https://github.com/candelakechkian/TIL/blob/main/README.md">README</a> - 2025-02-02</li>
 <!-- latest_tils ends -->
       </ul>
     </td>
