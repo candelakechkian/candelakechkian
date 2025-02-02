@@ -45,9 +45,9 @@ class CandelaKechkian:
             }
         }
         self.education = [
+            {"degree": "MBA, Artificial Intelligence", "school": "Northwestern University", "grad_year": 2026}
             {"degree": "B.S. Mechanical Engineering", "school": "Clemson University", "grad_year": 2019},
             {"degree": "B.A. Communication", "school": "Clemson University", "grad_year": 2019},
-            {"degree": "MBA, Artificial Intelligence", "school": "Northwestern University", "grad_year": 2026}
         ]
         self.experience = [
             "",
