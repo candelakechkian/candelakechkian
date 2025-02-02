@@ -12,19 +12,30 @@
     <td>
       <ul>
         <!-- latest_repos starts -->
-        <!-- latest_repos ends -->
+<li><a href="https://github.com/candelakechkian/test">test</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
+<li><a href="https://github.com/candelakechkian/the-life-manual">the-life-manual</a> - 2025-01-12</li>
+<li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-01-12</li>
+<!-- latest_repos ends -->
       </ul>
     </td>
     <td>
       <ul>
         <!-- latest_releases starts -->
-        <!-- latest_releases ends -->
+<li><a href="https://github.com/candelakechkian/candelakechkian">candelakechkian</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/test">test</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
+<li><a href="https://github.com/candelakechkian/awesome-design-resources">awesome-design-resources</a> - 2025-01-18</li>
+<!-- latest_releases ends -->
       </ul>
     </td>
     <td>
       <ul>
         <!-- latest_tils starts -->
-        <!-- latest_tils ends -->
+<li><a href="https://github.com/candelakechkian/TIL/blob/main/README.md">README</a> - 2025-02-02</li>
+<!-- latest_tils ends -->
       </ul>
     </td>
   </tr>
