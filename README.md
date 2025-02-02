@@ -10,19 +10,26 @@
   </tr>
   <tr>
     <td>
-      <!-- LATEST_REPOS_START -->
-      <!-- LATEST_REPOS_END -->
+      <ul>
+        <!-- LATEST_REPOS_START -->
+        <!-- LATEST_REPOS_END -->
+      </ul>
     </td>
     <td>
-      <!-- LATEST_RELEASES_START -->
-      <!-- LATEST_RELEASES_END -->
+      <ul>
+        <!-- LATEST_RELEASES_START -->
+        <!-- LATEST_RELEASES_END -->
+      </ul>
     </td>
     <td>
-      <!-- LATEST_TIL_START -->
-      <!-- LATEST_TIL_END -->
+      <ul>
+        <!-- LATEST_TIL_START -->
+        <!-- LATEST_TIL_END -->
+      </ul>
     </td>
   </tr>
 </table>
+
 
 ```python
 # about_candela.py
