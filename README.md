@@ -16,6 +16,7 @@
 <li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
 <li><a href="https://github.com/candelakechkian/the-life-manual">the-life-manual</a> - 2025-01-12</li>
 <li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-01-12</li>
+<li><a href="https://github.com/candelakechkian/badges">badges</a> - 2025-01-08</li>
 <!-- latest_repos ends -->
       </ul>
     </td>
