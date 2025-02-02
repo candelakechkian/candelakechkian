@@ -11,17 +11,14 @@
   <tr>
     <td>
       <!-- START RELEASES -->
-      Loading latest releases...
       <!-- END RELEASES -->
     </td>
     <td>
       <!-- START UPDATED -->
-      Loading latest updates...
       <!-- END UPDATED -->
     </td>
     <td>
       <!-- START FILES -->
-      Loading latest files...
       <!-- END FILES -->
     </td>
   </tr>
