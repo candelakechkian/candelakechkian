@@ -6,7 +6,7 @@
   <tr>
     <th>Latest Repositories Released</th>
     <th>Latest Repositories Updated</th>
-    <th>Latest Files in <a href="https://github.com/yourusername/YOUR_REPO_NAME">Your Repo</a></th>
+    <th>Latest Files in <a href="https://github.com/yourusername/YOUR_REPO_NAME">Repo</a></th>
   </tr>
   <tr>
     <td>
