@@ -23,7 +23,11 @@
     <td>
       <ul>
         <!-- latest_releases starts -->
-
+<li><a href="https://github.com/candelakechkian/candelakechkian">candelakechkian</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/test">test</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
+<li><a href="https://github.com/candelakechkian/awesome-design-resources">awesome-design-resources</a> - 2025-01-18</li>
 <!-- latest_releases ends -->
       </ul>
     </td>
