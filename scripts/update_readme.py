@@ -35,19 +35,24 @@ def replace_chunk(content: str, marker: str, chunk: str, inline: bool = False) -
 async def get_latest_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
-    params = {"sort": "created", "direction": "desc", "per_page": "5"}
+    params = {"sort": "created", "direction": "desc", "per_page": "10"}
     response = await client.get(url, headers=headers, params=params)
     response.raise_for_status()
     repos = response.json()
+    
+    # Filter out SKIP_REPOS and then take the first 5 results.
+    filtered_repos = [
+        repo for repo in repos 
+        if repo["name"].lower() not in {r.lower() for r in SKIP_REPOS}
+    ][:5]
+    
     html_lines = []
-    for repo in repos:
-        # Skip repositories whose name is in SKIP_REPOS (case-insensitive)
-        if repo["name"].lower() in {r.lower() for r in SKIP_REPOS}:
-            continue
+    for repo in filtered_repos:
         created_date = repo.get("created_at", "")[:10]
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {created_date}</li>')
     return "\n".join(html_lines)
-    
+
+
 # Get the 5 most recently updated repositories (sorted by updated_at) with update dates
 async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
