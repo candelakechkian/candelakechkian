@@ -4,8 +4,8 @@
 
 <table>
   <tr>
+    <th>Latest Repos</th>
     <th>Latest Releases</th>
-    <th>Latest Updates</th>
     <th>Latest TIL</th>
   </tr>
   <tr>
@@ -30,11 +30,7 @@
     <td>
       <ul>
         <!-- latest_tils starts -->
-* [Geocoding from Python on macOS using pyobjc-framework-CoreLocation](https://github.com/simonw/til/blob/main/python/pyobjc-framework-corelocation.md) - 2025-01-26
-* [Downloading every video for a TikTok account](https://github.com/simonw/til/blob/main/tiktok/download-all-videos.md) - 2025-01-19
-* [Calculating the size of all LFS files in a repo](https://github.com/simonw/til/blob/main/git/size-of-lfs-files.md) - 2024-12-25
-* [Named Entity Resolution with dslim/distilbert-NER](https://github.com/simonw/til/blob/main/llms/bert-ner.md) - 2024-12-24
-* [Fixes for datetime UTC warnings in Python](https://github.com/simonw/til/blob/main/python/utc-warning-fix.md) - 2024-12-12
+
 <!-- latest_tils ends -->
       </ul>
     </td>
