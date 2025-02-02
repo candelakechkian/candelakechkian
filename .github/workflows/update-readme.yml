@@ -16,14 +16,22 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-        
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: pip install httpx
+      
       - name: Fetch latest data and update README
         run: |-
           python scripts/update_readme.py
           cat README.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+      
       - name: Commit and push
         run: |-
           git config --global user.name "github-actions[bot]"
