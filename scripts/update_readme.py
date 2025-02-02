@@ -40,7 +40,7 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
     repos = response.json()
     md_lines = []
     for repo in repos:
-        md_lines.append(f"* [{repo['name']}]({repo['html_url']})")
+        md_lines.append(f"[{repo['name']}]({repo['html_url']})")
     return "\n".join(md_lines)
 
 # Get the 5 most recently updated repos (with releases)
@@ -82,7 +82,7 @@ async def get_latest_releases(client: httpx.AsyncClient) -> str:
         tag = release.get("tag_name", "latest")
         published = release.get("published_at", "")[:10]
         html_url = release.get("html_url", repo["html_url"])
-        md_lines.append(f"* [{repo['name']} {tag}]({html_url}) - {published}")
+        md_lines.append(f"[{repo['name']} {tag}]({html_url}) - {published}")
     return "\n".join(md_lines)
 
 # Get the 5 most recent TIL files from your local TIL directory
@@ -110,7 +110,7 @@ async def get_latest_tils(client: httpx.AsyncClient) -> str:
         title = file.stem
         # Build a URL pointing to the file on GitHub (assumes the file is under TIL/)
         url = f"{BASE_GITHUB_URL}/TIL/{file.name}"
-        md_lines.append(f"* [{title}]({url}) - {date_str}")
+        md_lines.append(f"[{title}]({url}) - {date_str}")
         
     return "\n".join(md_lines)
 
