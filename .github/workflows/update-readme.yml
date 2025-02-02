@@ -1,0 +1,36 @@
+# Update README
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # Runs daily at midnight CST (6 AM UTC)
+  workflow_dispatch:  # Allows manual runs
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Fetch Latest Repos Released
+        run: |
+          RELEASED_REPOS=$(curl -s "https://api.github.com/users/candelakechkian/repos?sort=created&per_page=3" | jq -r '.[] | "- [\(.name)](\(.html_url)) - \(.created_at)"')
+          sed -i '/<!-- START RELEASES -->/,/<!-- END RELEASES -->/c\<!-- START RELEASES -->\n'"$RELEASED_REPOS"'\n<!-- END RELEASES -->' README.md
+
+      - name: Fetch Latest Repos Updated
+        run: |
+          UPDATED_REPOS=$(curl -s "https://api.github.com/users/candelakechkian/repos?sort=updated&per_page=3" | jq -r '.[] | "- [\(.name)](\(.html_url)) - \(.updated_at)"')
+          sed -i '/<!-- START UPDATED -->/,/<!-- END UPDATED -->/c\<!-- START UPDATED -->\n'"$UPDATED_REPOS"'\n<!-- END UPDATED -->' README.md
+
+      - name: Fetch Latest Files from Repo X
+        run: |
+          FILES=$(curl -s "https://api.github.com/repos/candelakechkian/TIL/contents" | jq -r 'sort_by(.created_at) | reverse | .[:3] | .[] | "- [\(.name)](\(.html_url))"')
+          sed -i '/<!-- START FILES -->/,/<!-- END FILES -->/c\<!-- START FILES -->\n'"$FILES"'\n<!-- END FILES -->' README.md
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "Updated README with latest releases, updates, and files" || exit 0
+          git push
