@@ -2,6 +2,31 @@
 
 **Please note my repos are in progress!**
 
+<table>
+  <tr>
+    <th>Latest Repositories Released</th>
+    <th>Latest Repositories Updated</th>
+    <th>Latest Files in <a href="https://github.com/yourusername/YOUR_REPO_NAME">Your Repo</a></th>
+  </tr>
+  <tr>
+    <td>
+      <!-- START RELEASES -->
+      Loading latest releases...
+      <!-- END RELEASES -->
+    </td>
+    <td>
+      <!-- START UPDATED -->
+      Loading latest updates...
+      <!-- END UPDATED -->
+    </td>
+    <td>
+      <!-- START FILES -->
+      Loading latest files...
+      <!-- END FILES -->
+    </td>
+  </tr>
+</table>
+
 ```python
 # about_candela.py
 
