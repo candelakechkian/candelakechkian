@@ -50,6 +50,7 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
     for repo in filtered_repos:
         created_date = repo.get("created_at", "")[:10]
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {created_date}</li>')
+    
     return "\n".join(html_lines)
 
 
@@ -57,18 +58,24 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
 async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
-    params = {"sort": "updated", "direction": "desc", "per_page": "5"}
+    params = {"sort": "updated", "direction": "desc", "per_page": "10"}
     response = await client.get(url, headers=headers, params=params)
     response.raise_for_status()
     repos = response.json()
+    
+    # Filter out repositories that are in SKIP_REPOS (case-insensitive) and then take the first 5.
+    filtered_repos = [
+        repo for repo in repos 
+        if repo["name"].lower() not in {r.lower() for r in SKIP_REPOS}
+    ][:5]
+    
     html_lines = []
-    for repo in repos:
-        # Skip repositories in SKIP_REPOS
-        if repo["name"].lower() in {r.lower() for r in SKIP_REPOS}:
-            continue
+    for repo in filtered_repos:
         updated_date = repo.get("updated_at", "")[:10]
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {updated_date}</li>')
+    
     return "\n".join(html_lines)
+
 
 # Get the 5 most recent TIL files (as HTML list items)
 async def get_latest_tils(client: httpx.AsyncClient) -> str:
