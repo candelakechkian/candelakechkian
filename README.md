@@ -12,19 +12,26 @@
     <td>
       <ul>
         <!-- latest_repos starts -->
-        <!-- latest_repos ends -->
+[test](https://github.com/candelakechkian/test)
+[TIL](https://github.com/candelakechkian/TIL)
+[awesome-prompts](https://github.com/candelakechkian/awesome-prompts)
+[the-life-manual](https://github.com/candelakechkian/the-life-manual)
+[awesome-marketing](https://github.com/candelakechkian/awesome-marketing)
+<!-- latest_repos ends -->
       </ul>
     </td>
     <td>
       <ul>
         <!-- latest_releases starts -->
-        <!-- latest_releases ends -->
+
+<!-- latest_releases ends -->
       </ul>
     </td>
     <td>
       <ul>
         <!-- latest_tils starts -->
-        <!-- latest_tils ends -->
+No TIL directory found.
+<!-- latest_tils ends -->
       </ul>
     </td>
   </tr>
