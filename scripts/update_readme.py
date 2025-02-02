@@ -5,18 +5,25 @@ from pathlib import Path
 import httpx
 import datetime
 
-# Global configuration for main repo
+# Global config
 USERNAME = os.environ.get("GITHUB_USERNAME", "candelakechkian")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 REPO = os.environ.get("GITHUB_REPOSITORY", f"{USERNAME}/candelakechkian")
 BASE_GITHUB_URL = f"https://github.com/{REPO}/blob/main"
-
-# Global configuration for TIL repo
 TIL_REPO = os.environ.get("TIL_REPO", "candelakechkian/TIL")
 TIL_BASE_URL = f"https://github.com/{TIL_REPO}/blob/main"
-
-# Repos to skip
 SKIP_REPOS = {"candelakechkian"}
+
+def wrap_with_top_alignment(html: str) -> str:
+    """
+    Wraps the given HTML in a <div> with inline styles to force top alignment.
+    """
+    return (
+        '<div style="display: flex; flex-direction: column; justify-content: flex-start; '
+        'align-items: flex-start;">'
+        f'<ul style="margin: 0; padding: 0;">{html}</ul>'
+        '</div>'
+    )
 
 def replace_chunk(content: str, marker: str, chunk: str, inline: bool = False) -> str:
     """
@@ -50,8 +57,8 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
             continue
         created_date = repo.get("created_at", "")[:10]
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {created_date}</li>')
-    return "\n".join(html_lines)
-
+    return wrap_with_top_alignment("\n".join(html_lines))
+    
 # Get the 5 most recently updated repositories (sorted by updated_at) with update dates
 async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
@@ -67,7 +74,7 @@ async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
             continue
         updated_date = repo.get("updated_at", "")[:10]
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {updated_date}</li>')
-    return "\n".join(html_lines)
+    return wrap_with_top_alignment("\n".join(html_lines))
 
 # Get the 5 most recent TIL files (as HTML list items)
 async def get_latest_tils(client: httpx.AsyncClient) -> str:
@@ -119,7 +126,7 @@ async def get_latest_tils(client: httpx.AsyncClient) -> str:
         url = info["html_url"] or f"{TIL_BASE_URL}/{info['name']}"
         html_lines.append(f'<li><a href="{url}">{title}</a> - {date_str}</li>')
     
-    return "\n".join(html_lines)
+    return wrap_with_top_alignment("\n".join(html_lines))
 
 # Main function
 async def main():
