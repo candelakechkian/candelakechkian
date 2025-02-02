@@ -32,7 +32,7 @@ def replace_chunk(content: str, marker: str, chunk: str, inline: bool = False) -
     replacement = f"<!-- {marker} starts -->{chunk}<!-- {marker} ends -->"
     return pattern.sub(replacement, content)
 
-# Get the 5 most recently created repos from your main account (as HTML list items)
+# Get the 5 most recently created repos (as HTML list items)
 async def get_latest_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
@@ -45,43 +45,18 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a></li>')
     return "\n".join(html_lines)
 
-# Get the 5 most recently updated repos (with releases) from your main account (as HTML list items)
-async def get_latest_releases(client: httpx.AsyncClient) -> str:
+# Get the 5 most recently updated repos (as HTML list items)
+async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
-    search_url = "https://api.github.com/search/repositories"
-    query = f"user:{USERNAME} is:public has:releases"
-    params = {"q": query, "sort": "updated", "order": "desc", "per_page": "5"}
-    response = await client.get(search_url, headers=headers, params=params)
+    url = f"https://api.github.com/users/{USERNAME}/repos"
+    params = {"sort": "updated", "direction": "desc", "per_page": "5"}
+    response = await client.get(url, headers=headers, params=params)
     response.raise_for_status()
-    data = response.json()
-    repos = data.get("items", [])
-    
-    tasks = []
-    for repo in repos:
-        repo_name = repo["name"]
-        release_url = f"https://api.github.com/repos/{USERNAME}/{repo_name}/releases/latest"
-        tasks.append(client.get(release_url, headers=headers))
-    responses = await asyncio.gather(*tasks, return_exceptions=True)
-    
+    repos = response.json()
     html_lines = []
-    for repo, resp in zip(repos, responses):
-        if isinstance(resp, Exception):
-            if isinstance(resp, httpx.HTTPStatusError) and resp.response.status_code == 404:
-                continue
-            else:
-                continue
-        try:
-            resp.raise_for_status()
-        except httpx.HTTPStatusError as exc:
-            if exc.response.status_code == 404:
-                continue
-            else:
-                raise
-        release = resp.json()
-        tag = release.get("tag_name", "latest")
-        published = release.get("published_at", "")[:10]
-        html_url = release.get("html_url", repo["html_url"])
-        html_lines.append(f'<li><a href="{html_url}">{repo["name"]} {tag}</a> - {published}</li>')
+    for repo in repos:
+        updated_date = repo.get("updated_at", "")[:10]
+        html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {updated_date}</li>')
     return "\n".join(html_lines)
 
 # Get the 5 most recent TIL files from your TIL repository (as HTML list items)
@@ -140,15 +115,16 @@ async def main():
     # Adjust the path as needed; this assumes your script is in a subfolder (e.g., "scripts/")
     readme_path = Path(__file__).parent.parent / "README.md"
     async with httpx.AsyncClient() as client:
-        latest_repos, latest_releases, latest_tils = await asyncio.gather(
+        latest_repos, latest_updated_repos, latest_tils = await asyncio.gather(
             get_latest_repos(client),
-            get_latest_releases(client),
+            get_latest_updated_repos(client),
             get_latest_tils(client)
         )
     
     content = readme_path.read_text(encoding="utf-8")
     content = replace_chunk(content, "latest_repos", latest_repos)
-    content = replace_chunk(content, "latest_releases", latest_releases)
+    # We replace the marker "latest_releases" with the output from get_latest_updated_repos
+    content = replace_chunk(content, "latest_releases", latest_updated_repos)
     content = replace_chunk(content, "latest_tils", latest_tils)
     readme_path.write_text(content, encoding="utf-8")
     print("README.md updated successfully!")
