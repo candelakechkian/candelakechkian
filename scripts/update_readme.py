@@ -5,15 +5,18 @@ from pathlib import Path
 import httpx
 import datetime
 
-# Global configuration for your main repository
+# Global configuration for main repo
 USERNAME = os.environ.get("GITHUB_USERNAME", "candelakechkian")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 REPO = os.environ.get("GITHUB_REPOSITORY", f"{USERNAME}/candelakechkian")
 BASE_GITHUB_URL = f"https://github.com/{REPO}/blob/main"
 
-# Global configuration for your TIL repository
+# Global configuration for TIL repo
 TIL_REPO = os.environ.get("TIL_REPO", "candelakechkian/TIL")
 TIL_BASE_URL = f"https://github.com/{TIL_REPO}/blob/main"
+
+# Repos to skip
+SKIP_REPOS = {"candelakechkian"}
 
 def replace_chunk(content: str, marker: str, chunk: str, inline: bool = False) -> str:
     """
@@ -32,7 +35,7 @@ def replace_chunk(content: str, marker: str, chunk: str, inline: bool = False) -
     replacement = f"<!-- {marker} starts -->{chunk}<!-- {marker} ends -->"
     return pattern.sub(replacement, content)
 
-# Get the 5 newest repositories created (sorted by creation date) with creation dates.
+# Get the 5 newest repositories created (sorted by creation date) with creation dates
 async def get_latest_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
@@ -42,11 +45,14 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
     repos = response.json()
     html_lines = []
     for repo in repos:
+        # Skip repositories whose name is in SKIP_REPOS (case-insensitive)
+        if repo["name"].lower() in {r.lower() for r in SKIP_REPOS}:
+            continue
         created_date = repo.get("created_at", "")[:10]
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {created_date}</li>')
     return "\n".join(html_lines)
 
-# Get the 5 most recently updated repositories (sorted by updated_at) with update dates.
+# Get the 5 most recently updated repositories (sorted by updated_at) with update dates
 async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
@@ -56,14 +62,17 @@ async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     repos = response.json()
     html_lines = []
     for repo in repos:
+        # Skip repositories in SKIP_REPOS
+        if repo["name"].lower() in {r.lower() for r in SKIP_REPOS}:
+            continue
         updated_date = repo.get("updated_at", "")[:10]
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {updated_date}</li>')
     return "\n".join(html_lines)
 
-# Get the 5 most recently created TIL files from your TIL repository.
-# For each Markdown file, we fetch up to 100 commits and take the oldest as the creation date.
+# Get the 5 most recent TIL files (as HTML list items)
 async def get_latest_tils(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
+    # List the contents of the TIL repository (assumes files are in the root)
     contents_url = f"https://api.github.com/repos/{TIL_REPO}/contents"
     response = await client.get(contents_url, headers=headers)
     response.raise_for_status()
@@ -80,8 +89,7 @@ async def get_latest_tils(client: httpx.AsyncClient) -> str:
         commits = commit_resp.json()
         if not commits:
             return None
-        # Assuming commits are returned in descending order (newest first),
-        # the last commit in the list is the oldest commit (i.e. file creation).
+        # Take the oldest commit (assuming commits are returned in descending order)
         creation_commit = commits[-1]
         creation_date = creation_commit["commit"]["committer"]["date"]
         return {
@@ -115,7 +123,6 @@ async def get_latest_tils(client: httpx.AsyncClient) -> str:
 
 # Main function
 async def main():
-    # Adjust the path as needed; this assumes your script is in a subfolder (e.g., "scripts/")
     readme_path = Path(__file__).parent.parent / "README.md"
     async with httpx.AsyncClient() as client:
         latest_repos, latest_updated_repos, latest_tils = await asyncio.gather(
