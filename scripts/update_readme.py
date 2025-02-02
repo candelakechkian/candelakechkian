@@ -32,7 +32,7 @@ def replace_chunk(content: str, marker: str, chunk: str, inline: bool = False) -
     replacement = f"<!-- {marker} starts -->{chunk}<!-- {marker} ends -->"
     return pattern.sub(replacement, content)
 
-# Get the 5 most recently created repos (as HTML list items)
+# Get the 5 newest repositories created (sorted by creation date) with creation dates.
 async def get_latest_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
@@ -42,10 +42,11 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
     repos = response.json()
     html_lines = []
     for repo in repos:
-        html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a></li>')
+        created_date = repo.get("created_at", "")[:10]
+        html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {created_date}</li>')
     return "\n".join(html_lines)
 
-# Get the 5 most recently updated repos (as HTML list items)
+# Get the 5 most recently updated repositories (sorted by updated_at) with update dates.
 async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
@@ -59,10 +60,10 @@ async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
         html_lines.append(f'<li><a href="{repo["html_url"]}">{repo["name"]}</a> - {updated_date}</li>')
     return "\n".join(html_lines)
 
-# Get the 5 most recent TIL files from your TIL repository (as HTML list items)
+# Get the 5 most recently created TIL files from your TIL repository.
+# For each Markdown file, we fetch up to 100 commits and take the oldest as the creation date.
 async def get_latest_tils(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
-    # List the contents of the TIL repository (assumes files are in the root)
     contents_url = f"https://api.github.com/repos/{TIL_REPO}/contents"
     response = await client.get(contents_url, headers=headers)
     response.raise_for_status()
@@ -72,23 +73,25 @@ async def get_latest_tils(client: httpx.AsyncClient) -> str:
     if not til_files:
         return "No TIL files found."
     
-    # For each file, get its latest commit info to retrieve the commit date.
-    async def get_file_commit_info(file):
-        commits_url = f"https://api.github.com/repos/{TIL_REPO}/commits?path={file['path']}&per_page=1"
+    async def get_file_creation_info(file):
+        commits_url = f"https://api.github.com/repos/{TIL_REPO}/commits?path={file['path']}&per_page=100"
         commit_resp = await client.get(commits_url, headers=headers)
         commit_resp.raise_for_status()
         commits = commit_resp.json()
         if not commits:
             return None
-        commit_date = commits[0]["commit"]["committer"]["date"]
+        # Assuming commits are returned in descending order (newest first),
+        # the last commit in the list is the oldest commit (i.e. file creation).
+        creation_commit = commits[-1]
+        creation_date = creation_commit["commit"]["committer"]["date"]
         return {
             "name": file["name"],
             "path": file["path"],
             "html_url": file["html_url"],
-            "commit_date": commit_date,
+            "creation_date": creation_date,
         }
     
-    tasks = [get_file_commit_info(file) for file in til_files]
+    tasks = [get_file_creation_info(file) for file in til_files]
     commit_infos = await asyncio.gather(*tasks, return_exceptions=True)
     valid_infos = []
     for info in commit_infos:
@@ -96,14 +99,14 @@ async def get_latest_tils(client: httpx.AsyncClient) -> str:
             continue
         valid_infos.append(info)
     
-    # Sort files by commit_date (most recent first)
-    valid_infos.sort(key=lambda x: x["commit_date"], reverse=True)
+    # Sort files by creation_date (most recent first)
+    valid_infos.sort(key=lambda x: x["creation_date"], reverse=True)
     latest_five = valid_infos[:5]
     
     html_lines = []
     for info in latest_five:
-        commit_dt = datetime.datetime.fromisoformat(info["commit_date"].replace("Z", "+00:00"))
-        date_str = commit_dt.strftime("%Y-%m-%d")
+        creation_dt = datetime.datetime.fromisoformat(info["creation_date"].replace("Z", "+00:00"))
+        date_str = creation_dt.strftime("%Y-%m-%d")
         title = Path(info["name"]).stem
         url = info["html_url"] or f"{TIL_BASE_URL}/{info['name']}"
         html_lines.append(f'<li><a href="{url}">{title}</a> - {date_str}</li>')
@@ -123,7 +126,6 @@ async def main():
     
     content = readme_path.read_text(encoding="utf-8")
     content = replace_chunk(content, "latest_repos", latest_repos)
-    # We replace the marker "latest_releases" with the output from get_latest_updated_repos
     content = replace_chunk(content, "latest_releases", latest_updated_repos)
     content = replace_chunk(content, "latest_tils", latest_tils)
     readme_path.write_text(content, encoding="utf-8")
