@@ -94,7 +94,7 @@ async def main():
     username = os.environ.get("GITHUB_USERNAME", "candelakechkian")
     token = os.environ.get("GITHUB_TOKEN", "")  # Recommended to use a token to avoid rate limits
     
-    readme_path = Path(__file__).parent / "README.md"
+    readme_path = Path(__file__).parent.parent / "README.md"
 
     async with httpx.AsyncClient() as client:
         latest_repos, latest_releases, latest_tils = await asyncio.gather(
