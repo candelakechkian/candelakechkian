@@ -1,5 +1,6 @@
 import os
 import requests
+import re
 
 USERNAME = "candelakechkian"
 API_BASE = "https://api.github.com"
@@ -7,48 +8,64 @@ API_BASE = "https://api.github.com"
 def get_latest_repos():
     """Fetches the latest public repositories created."""
     url = f"{API_BASE}/users/{USERNAME}/repos?sort=created&per_page=5&type=public"
-    repos = requests.get(url).json()
-    return [f"- [{repo['name']}]({repo['html_url']}) - Created {repo['created_at'][:10]}"
-            for repo in repos if not repo.get("private", True)][:5]
+    response = requests.get(url)
+    repos = response.json() if response.status_code == 200 else []
+    return [
+        f"- [{repo['name']}]({repo['html_url']}) - Created {repo['created_at'][:10]}"
+        for repo in repos if not repo.get("private", True)
+    ][:5]
 
 def get_latest_releases():
-    """Fetches the latest releases across all public repositories."""
+    """Fetches the latest releases across public repositories."""
     url = f"{API_BASE}/users/{USERNAME}/repos?per_page=100&type=public"
-    repos = requests.get(url).json()
+    response = requests.get(url)
+    repos = response.json() if response.status_code == 200 else []
+    releases = []
+    for repo in repos:
+        repo_name = repo["name"]
+        releases_url = f"{API_BASE}/repos/{USERNAME}/{repo_name}/releases/latest"
+        release_response = requests.get(releases_url)
+        if release_response.status_code == 200:
+            release = release_response.json()
+            if "tag_name" in release:
+                releases.append(
+                    f"- [{repo_name} {release['tag_name']}]({release['html_url']}) - Released {release['published_at'][:10]}"
+                )
+    return releases[:5]
 
-    return [
-        f"- [{repo['name']} {release['tag_name']}]({release['html_url']}) - Released {release['published_at'][:10]}"
-        for repo in repos if not repo.get("private", True)
-        for release in [requests.get(f"{API_BASE}/repos/{USERNAME}/{repo['name']}/releases/latest").json()]
-        if isinstance(release, dict) and "tag_name" in release][:5]
-  
 def get_latest_til():
-  """Fetches the latest TIL files created."""
-  return [
-    f"- [{file['name']}]({file['html_url']})"
-    for file in requests.get(f"{API_BASE}/repos/{USERNAME}/TIL/contents").json()
-    if file.get("type") == "file"][:5]
+    """Fetches the latest TIL files created."""
+    url = f"{API_BASE}/repos/{USERNAME}/TIL/contents"
+    response = requests.get(url)
+    files = response.json() if response.status_code == 200 else []
+    return [
+        f"- [{file['name']}]({file['html_url']})"
+        for file in files if file.get("type") == "file"
+    ][:5]
 
 def update_readme():
     """Updates README.md with latest repos, releases, and TIL."""
     with open("README.md", "r") as file:
-        readme = file.readlines()
+        readme = file.read()
 
-    start_repos = readme.index("<!-- LATEST_REPOS_START -->\n") + 1
-    end_repos = readme.index("<!-- LATEST_REPOS_END -->\n")
+    repos_data = "\n".join(get_latest_repos())
+    releases_data = "\n".join(get_latest_releases())
+    til_data = "\n".join(get_latest_til())
 
-    start_releases = readme.index("<!-- LATEST_RELEASES_START -->\n") + 1
-    end_releases = readme.index("<!-- LATEST_RELEASES_END -->\n")
+    readme = re.sub(
+        r"<!-- LATEST_REPOS_START -->(.*?)<!-- LATEST_REPOS_END -->",
+        f"<!-- LATEST_REPOS_START -->\n{repos_data}\n<!-- LATEST_REPOS_END -->",
+        readme, flags=re.DOTALL)
 
-    start_til = readme.index("<!-- LATEST_TIL_START -->\n") + 1
-    end_til = readme.index("<!-- LATEST_TIL_END -->\n")
+    readme = re.sub(
+        r"<!-- LATEST_RELEASES_START -->(.*?)<!-- LATEST_RELEASES_END -->",
+        f"<!-- LATEST_RELEASES_START -->\n{releases_data}\n<!-- LATEST_RELEASES_END -->",
+        readme, flags=re.DOTALL)
 
-    readme[start_repos:end_repos] = [f"{line}\n" for line in get_latest_repos()]
-    readme[start_releases:end_releases] = [f"{line}\n" for line in get_latest_releases()]
-    readme[start_til:end_til] = [f"{line}\n" for line in get_latest_til_files()]
+    readme = re.sub(
+        r"<!-- LATEST_TIL_START -->(.*?)<!-- LATEST_TIL_END -->",
+        f"<!-- LATEST_TIL_START -->\n{til_data}\n<!-- LATEST_TIL_END -->",
+        readme, flags=re.DOTALL)
 
     with open("README.md", "w") as file:
-        file.writelines(readme)
-
-if __name__ == "__main__":
-    update_readme()
+        file.write(readme)
