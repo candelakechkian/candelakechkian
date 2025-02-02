@@ -30,7 +30,7 @@
     <td>
       <ul>
         <!-- latest_tils starts -->
-
+No TIL directory found.
 <!-- latest_tils ends -->
       </ul>
     </td>
