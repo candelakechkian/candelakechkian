@@ -36,7 +36,7 @@ async def get_latest_repos(client: httpx.AsyncClient, username: str, token: str)
         md_lines.append(f"* [{repo['name']}]({repo['html_url']})")
     return "\n".join(md_lines)
 
-# Get the 5 most recently updated repos
+# Get the 5 most recently updated repos (with releases)
 async def get_latest_releases(client: httpx.AsyncClient, username: str, token: str) -> str:
     headers = {"Authorization": f"token {token}"} if token else {}
     # Use the search API to list repositories that have releases.
@@ -58,10 +58,19 @@ async def get_latest_releases(client: httpx.AsyncClient, username: str, token: s
     
     md_lines = []
     for repo, resp in zip(repos, responses):
+        # If the response is an exception, check if it's a 404; if so, skip this repo.
         if isinstance(resp, Exception):
-            # In case of an error (for example, no release found), skip this repo.
-            continue
-        resp.raise_for_status()
+            if isinstance(resp, httpx.HTTPStatusError) and resp.response.status_code == 404:
+                continue
+            else:
+                continue
+        try:
+            resp.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            if exc.response.status_code == 404:
+                continue
+            else:
+                raise
         release = resp.json()
         tag = release.get("tag_name", "latest")
         published = release.get("published_at", "")[:10]
@@ -94,6 +103,7 @@ async def main():
     username = os.environ.get("GITHUB_USERNAME", "candelakechkian")
     token = os.environ.get("GITHUB_TOKEN", "")  # Recommended to use a token to avoid rate limits
     
+    # Adjust the path as needed; this assumes your script is in a subfolder (e.g., "scripts/")
     readme_path = Path(__file__).parent.parent / "README.md"
 
     async with httpx.AsyncClient() as client:
