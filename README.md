@@ -12,11 +12,11 @@
     <td>
       <ul>
         <!-- latest_repos starts -->
-<li><a href="https://github.com/candelakechkian/test">test</a></li>
-<li><a href="https://github.com/candelakechkian/TIL">TIL</a></li>
-<li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a></li>
-<li><a href="https://github.com/candelakechkian/the-life-manual">the-life-manual</a></li>
-<li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a></li>
+<li><a href="https://github.com/candelakechkian/test">test</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
+<li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
+<li><a href="https://github.com/candelakechkian/the-life-manual">the-life-manual</a> - 2025-01-12</li>
+<li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-01-12</li>
 <!-- latest_repos ends -->
       </ul>
     </td>
