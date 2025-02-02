@@ -30,7 +30,7 @@
     <td>
       <ul>
         <!-- latest_tils starts -->
-No TIL directory found.
+<li><a href="https://github.com/candelakechkian/TIL/blob/main/README.md">README</a> - 2025-02-02</li>
 <!-- latest_tils ends -->
       </ul>
     </td>
