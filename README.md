@@ -10,16 +10,16 @@
   </tr>
   <tr>
     <td>
-      <!-- START RELEASES -->
-      <!-- END RELEASES -->
+      <!-- LATEST_REPOS_START -->
+      <!-- LATEST_REPOS_END -->
     </td>
     <td>
-      <!-- START UPDATED -->
-      <!-- END UPDATED -->
+      <!-- LATEST_RELEASES_START -->
+      <!-- LATEST_RELEASES_END -->
     </td>
     <td>
-      <!-- START FILES -->
-      <!-- END FILES -->
+      <!-- LATEST_TIL_START -->
+      <!-- LATEST_TIL_END -->
     </td>
   </tr>
 </table>
