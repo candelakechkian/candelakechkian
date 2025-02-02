@@ -34,7 +34,6 @@ def update_readme():
     with open("README.md", "r") as file:
         readme = file.readlines()
 
-    # Locate placeholders in README
     start_repos = readme.index("<!-- LATEST_REPOS_START -->\n") + 1
     end_repos = readme.index("<!-- LATEST_REPOS_END -->\n")
 
@@ -44,12 +43,10 @@ def update_readme():
     start_til = readme.index("<!-- LATEST_TIL_START -->\n") + 1
     end_til = readme.index("<!-- LATEST_TIL_END -->\n")
 
-    # Insert latest data
     readme[start_repos:end_repos] = [f"{line}\n" for line in get_latest_repos()]
     readme[start_releases:end_releases] = [f"{line}\n" for line in get_latest_releases()]
     readme[start_til:end_til] = [f"{line}\n" for line in get_latest_til_files()]
 
-    # Write updated README
     with open("README.md", "w") as file:
         file.writelines(readme)
 
