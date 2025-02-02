@@ -20,7 +20,9 @@ jobs:
         run: |-
           python scripts/update_readme.py
           cat README.md
-        
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Commit and push
         run: |-
           git config --global user.name "github-actions[bot]"
