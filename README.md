@@ -5,7 +5,7 @@
 <table>
   <tr>
     <th>Latest Repos</th>
-    <th>Latest Releases</th>
+    <th>Latest Updates</th>
     <th>Latest TIL</th>
   </tr>
   <tr>
