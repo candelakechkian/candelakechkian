@@ -31,7 +31,7 @@ def replace_chunk(content: str, marker: str, chunk: str, inline: bool = False) -
     replacement = f"<!-- {marker} starts -->{chunk}<!-- {marker} ends -->"
     return pattern.sub(replacement, content)
 
-# Get the 5 newest repositories created (sorted by creation date) with creation dates
+# Get the 5 newest repos created with creation dates (sorted by creation date)
 async def get_latest_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
@@ -40,7 +40,7 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
     response.raise_for_status()
     repos = response.json()
     
-    # Filter out SKIP_REPOS and then take the first 5 results.
+    # Filter out repos in SKIP_REPOS and then get the first 5 results
     filtered_repos = [
         repo for repo in repos 
         if repo["name"].lower() not in {r.lower() for r in SKIP_REPOS}
@@ -54,7 +54,7 @@ async def get_latest_repos(client: httpx.AsyncClient) -> str:
     return "\n".join(html_lines)
 
 
-# Get the 5 most recently updated repositories (sorted by updated_at) with update dates
+# Get the 5 most recently updated repos with update dates (sorted by updated_at date)
 async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
     url = f"https://api.github.com/users/{USERNAME}/repos"
@@ -63,7 +63,7 @@ async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     response.raise_for_status()
     repos = response.json()
     
-    # Filter out repositories that are in SKIP_REPOS (case-insensitive) and then take the first 5.
+    # Filter out repos in SKIP_REPOS and then get the first 5 results
     filtered_repos = [
         repo for repo in repos 
         if repo["name"].lower() not in {r.lower() for r in SKIP_REPOS}
@@ -77,14 +77,16 @@ async def get_latest_updated_repos(client: httpx.AsyncClient) -> str:
     return "\n".join(html_lines)
 
 
-# Get the 5 most recent TIL files (as HTML list items)
+# Get the 5 most recent TIL files
 async def get_latest_tils(client: httpx.AsyncClient) -> str:
     headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
-    # List the contents of the TIL repository (assumes files are in the root)
+    
+    # List contents of TIL repo
     contents_url = f"https://api.github.com/repos/{TIL_REPO}/contents"
     response = await client.get(contents_url, headers=headers)
     response.raise_for_status()
     files = response.json()
+    
     # Filter for Markdown files
     til_files = [f for f in files if f.get("type") == "file" and f["name"].endswith(".md")]
     if not til_files:
@@ -97,6 +99,7 @@ async def get_latest_tils(client: httpx.AsyncClient) -> str:
         commits = commit_resp.json()
         if not commits:
             return None
+            
         # Take the oldest commit (assuming commits are returned in descending order)
         creation_commit = commits[-1]
         creation_date = creation_commit["commit"]["committer"]["date"]
