@@ -12,22 +12,22 @@
     <td>
       <ul>
         <!-- latest_repos starts -->
+<li><a href="https://github.com/candelakechkian/candelakechkian.github.io">candelakechkian.github.io</a> - 2025-02-19</li>
 <li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
 <li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
 <li><a href="https://github.com/candelakechkian/the-life-manual">the-life-manual</a> - 2025-01-12</li>
 <li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-01-12</li>
-<li><a href="https://github.com/candelakechkian/badges">badges</a> - 2025-01-08</li>
 <!-- latest_repos ends -->
       </ul>
     </td>
     <td>
       <ul>
         <!-- latest_releases starts -->
+<li><a href="https://github.com/candelakechkian/candelakechkian.github.io">candelakechkian.github.io</a> - 2025-02-19</li>
 <li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
 <li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
 <li><a href="https://github.com/candelakechkian/awesome-design-resources">awesome-design-resources</a> - 2025-01-18</li>
 <li><a href="https://github.com/candelakechkian/awesome-ai-resources">awesome-ai-resources</a> - 2025-01-13</li>
-<li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-01-12</li>
 <!-- latest_releases ends -->
       </ul>
     </td>
