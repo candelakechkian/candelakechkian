@@ -23,7 +23,7 @@
     <td>
       <ul>
         <!-- latest_releases starts -->
-<li><a href="https://github.com/candelakechkian/AI-FMEA">AI-FMEA</a> - 2025-03-05</li>
+<li><a href="https://github.com/candelakechkian/AI-FMEA">AI-FMEA</a> - 2025-03-09</li>
 <li><a href="https://github.com/candelakechkian/candelakechkian.github.io">candelakechkian.github.io</a> - 2025-02-19</li>
 <li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
 <li><a href="https://github.com/candelakechkian/awesome-prompts">awesome-prompts</a> - 2025-01-21</li>
