@@ -23,10 +23,10 @@
     <td>
       <ul>
         <!-- latest_releases starts -->
+<li><a href="https://github.com/candelakechkian/AI-FMEA">AI-FMEA</a> - 2025-06-05</li>
 <li><a href="https://github.com/candelakechkian/SPRING25-DATA-INTENSIVE-SYSTEMS">SPRING25-DATA-INTENSIVE-SYSTEMS</a> - 2025-05-19</li>
 <li><a href="https://github.com/candelakechkian/awesome-ai-resources">awesome-ai-resources</a> - 2025-05-08</li>
 <li><a href="https://github.com/candelakechkian/awesome-marketing">awesome-marketing</a> - 2025-04-08</li>
-<li><a href="https://github.com/candelakechkian/AI-FMEA">AI-FMEA</a> - 2025-03-09</li>
 <li><a href="https://github.com/candelakechkian/TIL">TIL</a> - 2025-02-02</li>
 <!-- latest_releases ends -->
       </ul>
